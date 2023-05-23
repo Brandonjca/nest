@@ -25,7 +25,9 @@ export class AppService {
     return getOneProduct;
   }
 
-  postProducts(): string[] {
-    return ['Flauta', 'Instrumento musical'];
+  createProduct(payload: ProductDto): ProductDto[] {
+    this.products.push(payload);
+    return this.products;
   }
 }
+//Dentro de que van los grads?

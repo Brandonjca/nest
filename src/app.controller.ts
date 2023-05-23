@@ -1,4 +1,6 @@
 import {
+  BadRequestException,
+  Body,
   Controller,
   Get,
   NotFoundException,
@@ -7,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { AppService } from './app.service';
+import { ProductDto } from './product.dto';
 
 @Controller()
 export class AppController {
@@ -26,8 +29,12 @@ export class AppController {
     }
   }
 
-  @Post('api/products')
-  postProduct(): string[] {
-    return this.appService.postProducts();
+  @Post()
+  postProduct(@Body() payload: ProductDto) {
+    try {
+      return this.appService.createProduct(payload);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }
