@@ -1,4 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -6,12 +13,21 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('api/products')
-  getProducts(): string[] {
-    return this.appService.getProducts();
+  getAllProducts() {
+    return this.appService.getAllProducs();
   }
 
-  // @Get()
-  // getHello(): string {
-  //   return this.appService.getHello();
-  // }
+  @Get('api/products/:id')
+  getProduct(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return this.appService.getProduct(id);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  @Post('api/products')
+  postProduct(): string[] {
+    return this.appService.postProducts();
+  }
 }
