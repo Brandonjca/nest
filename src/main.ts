@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')
@@ -12,13 +12,8 @@ async function bootstrap() {
     .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('documentation', app, document);
+  SwaggerModule.setup('api', app, document);
 
-  // const configService = app.get(ConfigService);
-  // app.setGlobalPrefix('api');
-
-  // app.useGlobalPipes(new ValidationPipe());
-
-  // await app.listen(configService.get('HOST'));
+  await app.listen(3000);
 }
 bootstrap();
